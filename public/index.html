@@ -4,9 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="vendors/angular.js"></script>
+  <script src="scripts/script.js"></script>
   <title>Messages</title>
 </head>
-<body>
-  <p>eyy</p>
+<body ng-app="MessageApp">
+  <div ng-controller="MessageController as vm">
+    <form ng-submit="vm.generateMessage()">
+    <select name="guests" ng-model="vm.newMessage.guest">
+      <option ng-repeat="guest in vm.guests" value={{guest.id}}>{{guest.firstName}} {{guest.lastName}}</option>
+    </select>
+    <select name="companies" ng-model="vm.newMessage.company">
+      <option ng-repeat="company in vm.companies" value={{company.id}}>{{company.company}}</option>
+    </select>
+    <select name="messages" ng-model="vm.newMessage.message">
+      <option ng-repeat="message in vm.messages" value={{message.id}}>{{message.name}}</option>
+    </select>
+    <button>Generate Message</button>
+  </form>
+  </div>
 </body>
 </html>
