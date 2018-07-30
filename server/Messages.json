@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "name": "Welcome",
+    "text": "$1 $2, and welcome to $3! Room $4 is now ready for you! Enjoy your stay, and let us know if you need anything.",
+    "values": [
+      "startTimestamp",
+      "guests.firstName",
+      "companies.company",
+      "guests.reservation.roomNumber"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Leaving",
+    "text": "$1, $2 $3. We hope you enjoyed your stay at $4, and we hope to see you again soon.",
+    "values": [
+      "endTimestamp",
+      "guests.firstName",
+      "guests.lastName",
+      "companies.company"
+    ]
+  }
+]
