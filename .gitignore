@@ -1,3 +1,5 @@
 Companies.json
 Guests.json
 *.pdf
+node_modules/
+.DS_Store
