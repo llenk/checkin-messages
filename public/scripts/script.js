@@ -41,9 +41,9 @@ app.controller('MessageController', ['$http', function($http) {
     });
   };
 
-  self.timeGreeting = function(time) {
-    let date = new Date(time * 1000);
-    let hour = date.getHours();
+  self.timeGreeting = function(time, timezone) {
+    let date = moment.tz(time * 1000, timezone);
+    let hour = date.hour();
     console.log(date, hour);
     if (hour <= 11) {
       // between midnight and noon is good morning
@@ -64,25 +64,22 @@ app.controller('MessageController', ['$http', function($http) {
     self.newMessage.values = self.messages[self.newMessage.message  - 1].values;
     self.newMessage.guest = self.guests[self.newMessage.guest - 1];
     self.newMessage.company = self.companies[self.newMessage.company - 1];
-    console.log(self.newMessage);
     for (let i=0; i<self.newMessage.values.length; i++) {
       // parse timestamps differently, since they should convert to times
       if (self.newMessage.values[i] == "guest.reservation.startTimestamp") {
-        self.newMessage.text = self.newMessage.text.replace('$' + i, self.timeGreeting(self.newMessage.guest.reservation.startTimestamp));
+        self.newMessage.text = self.newMessage.text.replace('$' + i, self.timeGreeting(self.newMessage.guest.reservation.startTimestamp, self.newMessage.company.timezone));
       }
       else if (self.newMessage.values[i] == "guest.reservation.endTimestamp") {
-        self.newMessage.text = self.newMessage.text.replace('$' + i, self.timeGreeting(self.newMessage.guest.reservation.endTimestamp));
+        self.newMessage.text = self.newMessage.text.replace('$' + i, self.timeGreeting(self.newMessage.guest.reservation.endTimestamp, self.newMessage.company.timezone));
       }
       // parse everything else just as how it's stored
       else {
         let access = self.newMessage.values[i].split('.');
-        console.log(access);
         let current = self.newMessage;
         for (token of access) {
           current = current[token];
         }
         self.newMessage.text = self.newMessage.text.replace('$' + i, current);
-        console.log(self.newMessage.text);
       }
     }
   }
