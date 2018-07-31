@@ -42,21 +42,22 @@ app.controller('MessageController', ['$http', function($http) {
   };
 
   self.generateMessage = function() {
-    self.newMessage.text = self.messages[self.newMessage.message].text;
-    self.newMessage.guest = self.guests[self.newMessage.guest];
-    self.newMessage.company = self.companies[self.newMessage.company];
+    self.newMessage.text = self.messages[self.newMessage.message - 1].text;
+    self.newMessage.values = self.messages[self.newMessage.message  - 1].values;
+    self.newMessage.guest = self.guests[self.newMessage.guest - 1];
+    self.newMessage.company = self.companies[self.newMessage.company - 1];
     console.log(self.newMessage);
-    for (let i=0; i<self.messages[self.newMessage.message].values.length; i++) {
+    for (let i=0; i<self.newMessage.values.length; i++) {
       // parse timestamps differently, since they should convert to times
-      if (self.messages[self.newMessage.message].values[i] == "guest.reservation.startTimestamp") {
+      if (self.newMessage.values[i] == "guest.reservation.startTimestamp") {
 
       }
-      else if (self.messages[self.newMessage.message].values[i] == "guest.reservation.endTimestamp") {
+      else if (self.newMessage.values[i] == "guest.reservation.endTimestamp") {
 
       }
       // parse everything else just as how it's stored
       else {
-        let access = self.messages[self.newMessage.message].values[i].split('.');
+        let access = self.newMessage.values[i].split('.');
         console.log(access);
         let current = self.newMessage;
         for (token of access) {
