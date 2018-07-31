@@ -7,7 +7,7 @@ app.controller('MessageController', ['$http', function($http) {
   self.companies = [];
   self.messages = [];
 
-  self.newMessage = {};
+  self.newMessage = {guest: '1', company: '1', message: '1'};
 
   // get information from the server
   self.getGuests = function() {
@@ -42,7 +42,30 @@ app.controller('MessageController', ['$http', function($http) {
   };
 
   self.generateMessage = function() {
+    self.newMessage.text = self.messages[self.newMessage.message].text;
+    self.newMessage.guest = self.guests[self.newMessage.guest];
+    self.newMessage.company = self.companies[self.newMessage.company];
     console.log(self.newMessage);
+    for (let i=0; i<self.messages[self.newMessage.message].values.length; i++) {
+      // parse timestamps differently, since they should convert to times
+      if (self.messages[self.newMessage.message].values[i] == "guest.reservation.startTimestamp") {
+
+      }
+      else if (self.messages[self.newMessage.message].values[i] == "guest.reservation.endTimestamp") {
+
+      }
+      // parse everything else just as how it's stored
+      else {
+        let access = self.messages[self.newMessage.message].values[i].split('.');
+        console.log(access);
+        let current = self.newMessage;
+        for (token of access) {
+          current = current[token];
+        }
+        self.newMessage.text = self.newMessage.text.replace('$' + i, current);
+        console.log(self.newMessage.text);
+      }
+    }
   }
 
   self.getGuests();
