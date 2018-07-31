@@ -41,6 +41,24 @@ app.controller('MessageController', ['$http', function($http) {
     });
   };
 
+  self.timeGreeting = function(time) {
+    let date = new Date(time * 1000);
+    let hour = date.getHours();
+    console.log(date, hour);
+    if (hour <= 11) {
+      // between midnight and noon is good morning
+      return 'Good morning';
+    }
+    else if (hour <= 16) {
+      // between noon and 5pm is afternoon
+      return 'Good afternoon';
+    }
+    else { 
+      // otherwise, evening
+      return 'Good evening';
+    }
+  }
+
   self.generateMessage = function() {
     self.newMessage.text = self.messages[self.newMessage.message - 1].text;
     self.newMessage.values = self.messages[self.newMessage.message  - 1].values;
@@ -50,10 +68,10 @@ app.controller('MessageController', ['$http', function($http) {
     for (let i=0; i<self.newMessage.values.length; i++) {
       // parse timestamps differently, since they should convert to times
       if (self.newMessage.values[i] == "guest.reservation.startTimestamp") {
-
+        self.newMessage.text = self.newMessage.text.replace('$' + i, self.timeGreeting(self.newMessage.guest.reservation.startTimestamp));
       }
       else if (self.newMessage.values[i] == "guest.reservation.endTimestamp") {
-
+        self.newMessage.text = self.newMessage.text.replace('$' + i, self.timeGreeting(self.newMessage.guest.reservation.endTimestamp));
       }
       // parse everything else just as how it's stored
       else {
