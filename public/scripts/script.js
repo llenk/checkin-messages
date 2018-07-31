@@ -7,7 +7,7 @@ app.controller('MessageController', ['$http', function($http) {
   self.companies = [];
   self.messages = [];
 
-  self.newMessage = {guest: '1', company: '1', message: '1'};
+  self.newMessage = {guest: '0', company: '0', message: '0'};
 
   // get information from the server
   self.getGuests = function() {
@@ -44,7 +44,6 @@ app.controller('MessageController', ['$http', function($http) {
   self.timeGreeting = function(time, timezone) {
     let date = moment.tz(time * 1000, timezone);
     let hour = date.hour();
-    console.log(date, hour);
     if (hour <= 11) {
       // between midnight and noon is good morning
       return 'Good morning';
@@ -82,6 +81,7 @@ app.controller('MessageController', ['$http', function($http) {
         self.newMessage.text = self.newMessage.text.replace('$' + i, current);
       }
     }
+    self.newMessage.message = 0;
   }
 
   self.getGuests();

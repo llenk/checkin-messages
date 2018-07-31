@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,23 +9,36 @@
   <script src="vendors/moment.js"></script>
   <script src="vendors/moment-timezone.js"></script>
   <script src="scripts/script.js"></script>
+  <link rel="stylesheet" href="styles.css">
   <title>Messages</title>
 </head>
+
 <body ng-app="MessageApp">
   <div ng-controller="MessageController as vm">
     <form ng-submit="vm.generateMessage()">
-    <select name="guests" ng-model="vm.newMessage.guest">
-      <option ng-repeat="guest in vm.guests" value={{guest.id}}>{{guest.firstName}} {{guest.lastName}}</option>
-    </select>
-    <select name="companies" ng-model="vm.newMessage.company">
-      <option ng-repeat="company in vm.companies" value={{company.id}}>{{company.company}}</option>
-    </select>
-    <select name="messages" ng-model="vm.newMessage.message">
-      <option ng-repeat="message in vm.messages" value={{message.id}}>{{message.name}}</option>
-    </select>
-    <button>Generate Message</button>
-  </form>
-  <p>{{vm.newMessage.text}}</p>
+      <h4>Generate message</h4>
+      <select name="guests" ng-model="vm.newMessage.guest">
+        <option ng-repeat="guest in vm.guests" value={{guest.id}}>{{guest.firstName}} {{guest.lastName}}</option>
+      </select>
+      <select name="companies" ng-model="vm.newMessage.company">
+        <option ng-repeat="company in vm.companies" value={{company.id}}>{{company.company}}</option>
+      </select>
+      <select name="messages" ng-model="vm.newMessage.message">
+        <option ng-repeat="message in vm.messages" value={{message.id}}>{{message.name}}</option>
+      </select>
+      <button>Generate Message</button>
+    </form>
+    <form>
+      <h4>Create new message template</h4>
+      <p>Type the template text, but for placeholders, put $, then (with no space) a number, starting with 0 and increasing by one each time.</p>
+      <input type="text">
+      <button>Submit text</button>
+    </form>
+    <form>
+      
+    </form>
+    <p>{{vm.newMessage.text}}</p>
   </div>
 </body>
+
 </html>
