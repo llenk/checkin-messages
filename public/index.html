@@ -28,15 +28,29 @@
       </select>
       <button>Generate Message</button>
     </form>
-    <form>
+    <form ng-submit="vm.parseTemplate()">
       <h4>Create new message template</h4>
+      <p>Template name</p>
+      <input type="text" ng-model="vm.newTemplate.name">
       <p>Type the template text, but for placeholders, put $, then (with no space) a number, starting with 0 and increasing by one each time.</p>
-      <input type="text">
+      <input type="text" ng-model="vm.newTemplate.text">
       <button>Submit text</button>
     </form>
-    <form>
-      
+    <form ng-if="vm.numberOfInputs" ng-submit="vm.addTemplate()">
+      <p>For each placeholder, select which variable you would like to use.</p>
+      <p><b>Template:</b> {{vm.newTemplate.text}}</p>
+      <div ng-repeat="input in vm.inputs">
+        <label for="input">{{input}}</label>
+        <select name="input" id="input" ng-model="vm.newTemplate.values[input[1]]">
+          <option ng-repeat="key in vm.keys" value="{{key.value}}">{{key.name}}</option>
+        </select>
+      </div>
+      <button>Add Template</button>
     </form>
+    <form>
+
+    </form>
+    <h3 ng-if="vm.newMessage.text">New Message:</h3>
     <p>{{vm.newMessage.text}}</p>
   </div>
 </body>

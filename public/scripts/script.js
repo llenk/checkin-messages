@@ -6,8 +6,40 @@ app.controller('MessageController', ['$http', function($http) {
   self.guests = [];
   self.companies = [];
   self.messages = [];
+  self.keys = [
+    {
+      name: 'Guest First Name',
+      value: 'guest.firstName',
+    },
+    {
+      name: 'Guest Last Name',
+      value: 'guest.lastName',
+    },
+    {
+      name: 'Guest Reservation Room Number',
+      value: 'guest.reservation.roomNumber',
+    },
+    {
+      name: 'Guest Reservation Start Time',
+      value: 'guest.reservation.startTimestamp',
+    },
+    {
+      name: 'Guest Reservation End Time',
+      value: 'guest.reservation.endTimestamp',
+    },
+    {
+      name: 'Company Name',
+      value: 'company.company',
+    },
+    {
+      name: 'Company City',
+      value: 'company.city',
+    },
+  ];
 
   self.newMessage = {guest: '0', company: '0', message: '0'};
+  self.newTemplate = {text: '', values: [], name: ''};
+  self.numberOfInputs = 0;
 
   // get information from the server
   self.getGuests = function() {
@@ -56,7 +88,7 @@ app.controller('MessageController', ['$http', function($http) {
       // otherwise, evening
       return 'Good evening';
     }
-  }
+  };
 
   self.generateMessage = function() {
     self.newMessage.text = self.messages[self.newMessage.message - 1].text;
@@ -82,6 +114,17 @@ app.controller('MessageController', ['$http', function($http) {
       }
     }
     self.newMessage.message = 0;
+  };
+
+  self.parseTemplate = function() {
+    self.inputs = self.newTemplate.text.match(/\$[0-9]/g);
+    self.numberOfInputs = self.inputs.length;
+  };
+
+  self.addTemplate = function() {
+    self.newTemplate.id = self.messages.length;
+    self.messages.push(self.newTemplate);
+    self.numberOfInputs = 0;
   }
 
   self.getGuests();
